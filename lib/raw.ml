@@ -2,96 +2,102 @@ open Types
 
 external version : unit -> string = "libssh_ml_version"
 
-module Userauth =
-struct
-
-  external password : ssh_session -> string -> string -> ssh_auth = "libssh_ml_ssh_userauth_password"
-
+module Userauth = struct
+  external password : ssh_session -> string -> string -> ssh_auth
+    = "libssh_ml_ssh_userauth_password"
 end
 
-module Session =
-struct
-
+module Session = struct
   (* raises Failure in case of error *)
   external new_ : unit -> ssh_session = "libssh_ml_ssh_new"
-
   external connect : ssh_session -> ssh_error_code = "libssh_ml_ssh_connect"
 
-  external disconnect : ssh_session -> ssh_error_code = "libssh_ml_ssh_disconnect"
+  external disconnect : ssh_session -> ssh_error_code
+    = "libssh_ml_ssh_disconnect"
 
   external close : ssh_session -> unit = "libssh_ml_ssh_close"
 
-  external options_set : ssh_session -> ssh_option -> ssh_error_code = "libssh_ml_ssh_options_set"
-
+  external options_set : ssh_session -> ssh_option -> ssh_error_code
+    = "libssh_ml_ssh_options_set"
 end
 
-module Channel =
-struct
-
-  (** Raises "Failure" in case of error *)
+module Channel = struct
   external new_ : ssh_session -> ssh_channel = "libssh_ml_ssh_channel_new"
+  (** Raises "Failure" in case of error *)
 
-  (** Does not raise (except bug) *)
   external close : ssh_channel -> ssh_error_code = "libssh_ml_ssh_channel_close"
+  (** Does not raise (except bug) *)
 
-  (** Does not raise (except bug) *)  
   external free : ssh_channel -> unit = "libssh_ml_ssh_channel_free"
+  (** Does not raise (except bug) *)
 
-  (** Does not raise (except bug) *)    
-  external open_session : ssh_channel -> ssh_error_code = "libssh_ml_ssh_channel_open_session"
+  external open_session : ssh_channel -> ssh_error_code
+    = "libssh_ml_ssh_channel_open_session"
+  (** Does not raise (except bug) *)
 
+  external request_exec : ssh_channel -> string -> ssh_error_code
+    = "libssh_ml_ssh_channel_request_exec"
   (** Can raise exception "Failure" *)
-  external request_exec : ssh_channel -> string -> ssh_error_code = "libssh_ml_ssh_channel_request_exec"
 
+  external request_pty : ssh_channel -> ssh_error_code
+    = "libssh_ml_ssh_channel_request_pty"
   (** Does not raise *)
-  external request_pty : ssh_channel -> ssh_error_code = "libssh_ml_ssh_channel_request_pty"
 
-  (** Does not raise *)  
-  external change_pty_size : ssh_channel -> int -> int -> ssh_error_code = "libssh_ml_ssh_channel_change_pty_size"
+  external change_pty_size : ssh_channel -> int -> int -> ssh_error_code
+    = "libssh_ml_ssh_channel_change_pty_size"
+  (** Does not raise *)
 
-  (** Does not raise *)  
-  external request_shell : ssh_channel -> ssh_error_code = "libssh_ml_ssh_channel_request_shell"      
+  external request_shell : ssh_channel -> ssh_error_code
+    = "libssh_ml_ssh_channel_request_shell"
+  (** Does not raise *)
 
+  external read_timeout : ssh_channel -> bool -> int -> string
+    = "libssh_ml_channel_read_timeout"
   (** Can raise exception "Failure" *)
-  external read_timeout : ssh_channel -> bool -> int -> string = "libssh_ml_channel_read_timeout"
 
+  external write : ssh_channel -> string -> ssh_error_code
+    = "libssh_ml_ssh_channel_write"
   (** Can raise exception "Failure" *)
-  external write : ssh_channel -> string -> ssh_error_code = "libssh_ml_ssh_channel_write"
 
-  (** Does not raise *)  
-  external send_eof : ssh_channel -> ssh_error_code = "libssh_ml_ssh_channel_send_eof"
-
+  external send_eof : ssh_channel -> ssh_error_code
+    = "libssh_ml_ssh_channel_send_eof"
+  (** Does not raise *)
 end
 
-module Scp =
-struct
-
-  external accept_request : ssh_scp -> ssh_error_code = "libssh_ml_scp_accept_request"
+module Scp = struct
+  external accept_request : ssh_scp -> ssh_error_code
+    = "libssh_ml_scp_accept_request"
 
   external close : ssh_scp -> ssh_error_code = "libssh_ml_scp_close"
 
-  external deny_request : ssh_scp -> string -> ssh_error_code = "libssh_ml_scp_deny_request"
+  external deny_request : ssh_scp -> string -> ssh_error_code
+    = "libssh_ml_scp_deny_request"
 
   external free : ssh_scp -> unit = "libssh_ml_scp_free"
-
   external init : ssh_scp -> ssh_error_code = "libssh_ml_scp_init"
 
-  external leave_directory : ssh_scp -> ssh_error_code = "libssh_ml_scp_leave_directory"
+  external leave_directory : ssh_scp -> ssh_error_code
+    = "libssh_ml_scp_leave_directory"
 
-  external new_ : ssh_session -> ssh_scp_mode -> string -> ssh_scp = "libssh_ml_ssh_scp_new"
+  external new_ : ssh_session -> ssh_scp_mode -> string -> ssh_scp
+    = "libssh_ml_ssh_scp_new"
 
-  external pull_request : ssh_scp -> ssh_scp_request = "libssh_ml_ssh_scp_pull_request"
+  external pull_request : ssh_scp -> ssh_scp_request
+    = "libssh_ml_ssh_scp_pull_request"
 
-  external push_directory : ssh_scp -> string -> int -> ssh_error_code = "libssh_ml_ssh_scp_push_directory"
+  external push_directory : ssh_scp -> string -> int -> ssh_error_code
+    = "libssh_ml_ssh_scp_push_directory"
 
-  external push_file : ssh_scp -> string -> int -> int -> ssh_error_code = "libssh_ml_ssh_scp_push_file"
+  external push_file : ssh_scp -> string -> int -> int -> ssh_error_code
+    = "libssh_ml_ssh_scp_push_file"
 
-  external push_file64 : ssh_scp -> string -> int64 -> int -> ssh_error_code = "libssh_ml_ssh_scp_push_file"
+  external push_file64 : ssh_scp -> string -> int64 -> int -> ssh_error_code
+    = "libssh_ml_ssh_scp_push_file"
 
   external read : ssh_scp -> bytes -> int = "libssh_ml_ssh_scp_read"
 
-  external request_get_filename : ssh_scp -> string = "libssh_ml_ssh_scp_request_get_filename"
+  external request_get_filename : ssh_scp -> string
+    = "libssh_ml_ssh_scp_request_get_filename"
 
   external write : ssh_scp -> bytes -> unit = "libssh_ml_ssh_scp_write"
-  
 end

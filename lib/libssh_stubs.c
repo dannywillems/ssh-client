@@ -725,7 +725,7 @@ void check_result(int r, ssh_session this_session)
 
 static void verify_server(ssh_session this_sess)
 {
-     const int rc = ssh_is_server_known(this_sess);
+     const int rc = ssh_session_is_known_server(this_sess);
 
      switch(rc) {
      case SSH_SERVER_KNOWN_OK:
