@@ -12,5 +12,9 @@ depends: [
   "ocaml"       {>= "4.08"}
   "dune"        {build & >= "1.0"}
   "containers"  {>= "3.0.1"}
+  "conf-libssh" { = "dev" }
 ]
-descr: "SSH client library"
+description: "SSH client library"
+pin-depends: [
+  ["conf-libssh.dev" "git+https://gitlab.com/dannywillems/ocaml-conf-libssh.git#ee8fa14eefd30071aff48d3a550c4cf4d0ed8cd0"]
+]
