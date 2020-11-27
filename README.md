@@ -9,4 +9,5 @@ on top which high-level functionalities are built (module `Easy`).
 
 1) Install the `batteries` package via `opam` and libssh (including the dev package)
 using your OS's package manager.
-2) `jbuilder build && jbuilder install`
+2) Install external dependencies using `opam depext`
+3) `jbuilder build && jbuilder install`
